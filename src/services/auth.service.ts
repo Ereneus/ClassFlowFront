@@ -1,0 +1,175 @@
+import { apiService } from './api.service';
+import { ApiResponse } from '@types';
+import { User } from './user.service';
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  user: User;
+}
+
+export interface RegisterRequest {
+  firstName: string;
+  lastName: string;
+  idNumber: string;
+  email: string;
+  password: string;
+  role: string;
+  course?: string;
+  guardianId?: number;
+}
+
+export interface BackendUser {
+  id: string | number;
+  first_name?: string;
+  last_name?: string;
+  firstName?: string;
+  lastName?: string;
+  nombre?: string;
+  email?: string;
+  role?: string;
+  rol?: string;
+  active?: boolean;
+  activo?: boolean;
+  createdAt?: string;
+  created_at?: string;
+  subject?: string;
+  course?: string;
+  guardian_id?: string | null;
+  guardianId?: number | null;
+  phone?: string;
+  bio?: string;
+}
+
+interface BackendLoginResponse {
+  token: string;
+  id?: number;
+  user?: BackendUser;
+  email?: string;
+  role?: string;
+  fullName?: string;
+}
+
+class AuthService {
+  async login(data: LoginRequest): Promise<LoginResponse> {
+    const response = await apiService.post<LoginResponse | ApiResponse<LoginResponse>>('/auth/login', data);
+
+    if (this.isApiResponse(response)) {
+      return this.normalizeLoginResponse(response.data as unknown as BackendLoginResponse);
+    }
+
+    return this.normalizeLoginResponse(response as unknown as BackendLoginResponse);
+  }
+
+  async register(data: RegisterRequest): Promise<User> {
+    const response = await apiService.post<BackendUser>('/auth/register', data);
+    return this.normalizeUser(response);
+  }
+
+  async forgotPassword(email: string): Promise<{ message: string }> {
+    return apiService.post<{ message: string }>('/auth/forgot-password', { email });
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise<{ message: string }> {
+    return apiService.post<{ message: string }>('/auth/reset-password', { token, newPassword });
+  }
+
+  async validateToken(token: string): Promise<User> {
+    const response = await apiService.get<BackendUser>(
+      '/auth/validate',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return this.normalizeUser(response);
+  }
+
+  async getCurrentUser(): Promise<User> {
+    const response = await apiService.get<BackendUser>('/auth/me');
+    return this.normalizeUser(response);
+  }
+
+  logout(): void {
+    localStorage.removeItem('user_token');
+    localStorage.removeItem('user_data');
+    localStorage.removeItem('auth_provider');
+  }
+
+  private isApiResponse(value: LoginResponse | ApiResponse<LoginResponse>): value is ApiResponse<LoginResponse> {
+    return typeof value === 'object' && value !== null && 'data' in value && 'status' in value;
+  }
+
+  private normalizeLoginResponse(response: BackendLoginResponse): LoginResponse {
+    if (response.user) {
+      return {
+        token: response.token,
+        user: this.normalizeUser(response.user),
+      };
+    }
+
+    // Fallback for flattened response from the backend
+    const userFallback = {
+      id: String(response.id ?? ''),
+      nombre: response.fullName ?? response.email ?? '',
+      email: response.email ?? '',
+      rol: this.normalizeRole(response.role),
+      activo: true,
+      createdAt: new Date().toISOString(),
+    } as unknown as User;
+
+    return {
+      token: response.token,
+      user: userFallback,
+    };
+  }
+
+  /** Convierte un usuario de ms-auth al modelo del front (lo reutiliza directoryService). */
+  normalizeUser(user: BackendUser): User {
+    const firstName = user.first_name ?? user.firstName ?? '';
+    const lastName = user.last_name ?? user.lastName ?? '';
+    const nombre = user.nombre ?? `${firstName} ${lastName}`.trim();
+
+    return {
+      id: String(user.id),
+      nombre: nombre || user.email || '',
+      email: user.email ?? '',
+      rol: this.normalizeRole(user.role ?? user.rol),
+      activo: user.active ?? user.activo ?? true,
+      createdAt: user.createdAt ?? user.created_at ?? new Date().toISOString(),
+      subject: user.subject ?? user.course,
+      phone: user.phone,
+      bio: user.bio,
+      guardianId: user.guardianId != null
+        ? String(user.guardianId)
+        : user.guardian_id ?? undefined,
+    };
+  }
+
+  private normalizeRole(role?: string): User['rol'] {
+    switch (role) {
+      case 'ADMINISTRATOR':
+      case 'ADMIN':
+      case 'ADMINISTRADOR':
+        return 'ADMINISTRATOR';
+      case 'TEACHER':
+      case 'DOCENTE':
+        return 'TEACHER';
+      case 'GUARDIAN':
+      case 'APODERADO':
+        return 'GUARDIAN';
+      case 'STUDENT':
+      case 'ESTUDIANTE':
+      default:
+        return 'STUDENT';
+    }
+  }
+}
+
+export const authService = new AuthService();

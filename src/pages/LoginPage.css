@@ -1,0 +1,355 @@
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.login-left {
+  width: 45%;
+  background: url('https://images.unsplash.com/photo-1610962381137-50ef93055125?w=1200&q=80&auto=format&fit=crop') center/cover no-repeat;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.5rem 3rem;
+}
+
+.login-left-content {
+  text-align: center;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  margin-top: 3rem;
+}
+
+.login-platform-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: #7c3aed;
+  text-shadow: none;
+}
+
+.login-brand-name {
+  font-size: 5rem;
+  font-weight: 300;
+  line-height: 1;
+  color: #4f46e5;
+  text-shadow: none;
+}
+
+.login-brand-desc {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.7;
+  text-shadow: none;
+  margin-top: 24rem;
+}
+
+.login-right {
+  flex: 1;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+}
+
+.login-form-box {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-welcome {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.login-welcome-sub {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.75rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-top: 0.25rem;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.login-field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.login-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-input-icon {
+  position: absolute;
+  left: 0.75rem;
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.login-input {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #111827;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.login-input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.login-input::placeholder {
+  color: #9ca3af;
+}
+
+.login-roles-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-roles-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.login-roles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.login-role-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.7rem 0.5rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #374151;
+  transition: all 0.15s ease;
+}
+
+.login-role-btn:hover {
+  border-color: #7c3aed;
+  background: #faf5ff;
+}
+
+.login-role-btn--active {
+  border-color: #7c3aed;
+  background: #ede9fe;
+  color: #7c3aed;
+  font-weight: 600;
+}
+
+.login-role-emoji {
+  font-size: 1.5rem;
+}
+
+.login-error {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.login-submit-btn {
+  width: 100%;
+  padding: 0.85rem;
+  background: #ffffff;
+  color: #111827;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.login-submit-btn:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.login-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Separador "o" entre el login con contraseña y el de Microsoft */
+.login-or {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.5rem 0 0.25rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}
+
+.login-or::before,
+.login-or::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Opción secundaria: botón transparente con el logo de Microsoft */
+.login-microsoft-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.8rem;
+  background: transparent;
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.login-microsoft-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+}
+
+.login-microsoft-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-microsoft-logo {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.login-recover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.login-recover-divider {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.6);
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.login-recover-divider::before,
+.login-recover-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 22%;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.login-recover-divider::before { left: 0; }
+.login-recover-divider::after  { right: 0; }
+
+.login-recover-link {
+  color: #e9d5ff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.login-recover-link:hover {
+  text-decoration: underline;
+}
+
+.login-recover-sent {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: center;
+  margin-top: 0.25rem;
+}
+
+.reset-success-illustration {
+  width: 100%;
+  max-width: 280px;
+  margin: 1rem auto 0.5rem;
+  display: block;
+}
+
+.toast-success {
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #16a34a;
+  color: #ffffff;
+  padding: 0.85rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  animation: toast-slide-in 0.25s ease-out;
+}
+
+@keyframes toast-slide-in {
+  from { opacity: 0; transform: translate(-50%, -12px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast-success { animation: none; }
+}
+
+@media (max-width: 768px) {
+  .login-page { flex-direction: column; }
+  .login-left { width: 100%; padding: 2.5rem 1.5rem; }
+  .login-brand-name { font-size: 3.5rem; }
+  .login-right { padding: 2rem 1.5rem; }
+}
