@@ -8,6 +8,7 @@ declare global {
     readonly VITE_MSAL_TENANT_ID?: string;
     readonly VITE_MSAL_API_SCOPE?: string;
     readonly VITE_MSAL_REDIRECT_URI?: string;
+    readonly VITE_ANALYTICS_REFRESH_MS?: string;
     readonly VITE_APP_NAME?: string;
     readonly VITE_APP_VERSION?: string;
   }

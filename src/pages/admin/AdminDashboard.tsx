@@ -21,6 +21,7 @@ import {
   AdminSettingsView,
   AdminUsersView,
 } from './AdminViews';
+import { AdminStreamingView } from './AdminStreamingView';
 import './AdminDashboard.css';
 
 type TableUser = {
@@ -54,6 +55,7 @@ type AdminNavKey =
   | 'mensajeria'
   | 'informes'
   | 'rendimiento'
+  | 'envivo'
   | 'configuracion';
 
 const NAV_KEY_BY_LABEL: Partial<Record<string, AdminNavKey>> = {
@@ -64,6 +66,7 @@ const NAV_KEY_BY_LABEL: Partial<Record<string, AdminNavKey>> = {
   Mensajería: 'mensajeria',
   Informes: 'informes',
   Rendimiento: 'rendimiento',
+  'En vivo': 'envivo',
   Configuración: 'configuracion',
 };
 
@@ -75,6 +78,7 @@ const NAV_TITLE: Record<AdminNavKey, string> = {
   mensajeria: 'Mensajería',
   informes: 'Informes',
   rendimiento: 'Rendimiento',
+  envivo: 'Analítica en vivo',
   configuracion: 'Configuración',
 };
 
@@ -97,6 +101,7 @@ const navSections = [
     items: [
       { icon: '📄', label: 'Informes' },
       { icon: '📈', label: 'Rendimiento' },
+      { icon: '📡', label: 'En vivo' },
     ],
   },
   {
@@ -190,6 +195,8 @@ export const AdminDashboard: React.FC = () => {
         return <AdminReportsView users={directory} />;
       case 'rendimiento':
         return <AdminPerformanceView users={directory} />;
+      case 'envivo':
+        return <AdminStreamingView users={directory} courses={courseList} />;
       case 'configuracion':
         return <AdminSettingsView user={user} />;
       default:
