@@ -51,3 +51,13 @@ export function humanizeRole(role?: string): string {
       return role ?? '';
   }
 }
+
+/** "hace 12 s", "hace 3 min", "hace 2 h" a partir de un instante ISO-8601. */
+export function timeAgo(iso: string | null, now: number): string {
+  if (!iso) return 'sin eventos aún';
+  const seconds = Math.max(0, Math.round((now - new Date(iso).getTime()) / 1000));
+  if (seconds < 60) return `hace ${seconds} s`;
+  const minutes = Math.round(seconds / 60);
+  if (minutes < 60) return `hace ${minutes} min`;
+  return `hace ${Math.round(minutes / 60)} h`;
+}

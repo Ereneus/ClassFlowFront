@@ -781,3 +781,42 @@
   margin: 0;
   color: #0f172a;
 }
+
+/* Analítica en vivo (Kafka) */
+.streaming-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.streaming-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5);
+  animation: streaming-pulse 2s infinite;
+}
+
+.streaming-dot--error {
+  background: #dc2626;
+  animation: none;
+}
+
+.streaming-last-event {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+@keyframes streaming-pulse {
+  70% { box-shadow: 0 0 0 0.45rem rgba(22, 163, 74, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .streaming-dot { animation: none; }
+}

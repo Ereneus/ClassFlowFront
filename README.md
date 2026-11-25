@@ -94,6 +94,9 @@ VITE_MSAL_CLIENT_ID=<FRONTEND_CLIENT_ID>
 VITE_MSAL_TENANT_ID=<TENANT_ID>
 VITE_MSAL_API_SCOPE=api://<API_CLIENT_ID>/access_as_user
 VITE_MSAL_REDIRECT_URI=http://localhost:3000
+
+# Cada cuántos milisegundos se refresca la analítica en vivo (por defecto 5000)
+VITE_ANALYTICS_REFRESH_MS=5000
 ```
 
 > Las variables `VITE_` son resueltas por Vite en tiempo de compilación y quedan embebidas en el bundle estático. No existe inyección en runtime para una aplicación servida desde Nginx. Cualquier cambio de valor requiere un nuevo build. El archivo `.env.local` está incluido en `.gitignore` y debe distribuirse de forma segura fuera del control de versiones.
@@ -249,6 +252,14 @@ Comunicación bidireccional entre todos los actores del colegio. Los anuncios in
 
 Muestra las alertas del sistema: inasistencias, nuevas calificaciones y mensajes no leídos. Consume el Notifications Service a través de `/api/notifications/**`.
 
+### Analítica en vivo (Kafka)
+
+Vista **Reportes → En vivo** del panel de administración. Muestra los indicadores que `ms-analytics` recalcula al consumir cada evento de Kafka (`classflow.academic.grades` y `classflow.assistance.attendance`): eventos procesados, asistencia por curso y estudiantes bajo el umbral de asistencia.
+
+- El hook `usePolling` vuelve a pedir `/api/analytics/summary` y `/api/analytics/courses/attendance` cada `VITE_ANALYTICS_REFRESH_MS` (5 s por defecto). Así, una nota o asistencia registrada en otra sesión aparece en segundos, sin recargar la página.
+- No encadena peticiones, pausa las consultas con la pestaña oculta y, si una consulta falla, mantiene los últimos datos y lo indica.
+- El indicador "Último evento Kafka" muestra hace cuánto `ms-analytics` procesó el evento más reciente.
+
 ---
 
 ## Comunicación con el Backend
@@ -273,6 +284,7 @@ Todas las peticiones HTTP pasan por el API Gateway en el puerto **8080**. La ins
 | `/api/messages/**` | Messaging Service | 8084 |
 | `/api/announcements/**` | Messaging Service | 8084 |
 | `/api/notifications/**` | Notifications Service | 8085 |
+| `/api/analytics/**` | Analytics Service (consumidor Kafka) | 8087 |
 
 ### BFF (Backend for Frontend)
 

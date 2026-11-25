@@ -15,3 +15,5 @@ export { annotationService } from './annotation.service';
 export * from './portal.service';
 export * from './school.service';
 export * from './directory.service';
+export * from './analytics.service';
+export { analyticsService } from './analytics.service';
